@@ -1,10 +1,12 @@
 import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpLeft, ExternalLink, ChevronLeft, ChevronRight, Globe, Smartphone, Cpu, FlaskConical } from 'lucide-react'
+import { ArrowUpLeft, ExternalLink, ChevronLeft, ChevronRight, Globe, Smartphone, Cpu, FlaskConical, Eye } from 'lucide-react'
 import type { LiveProject, LiveProjectType } from '../../data/types'
 import { liveProjectTypeLabels } from '../../data/types'
 import { liveCategoryName } from '../../data/liveProjects'
 import { cn } from '../../lib/utils'
+import { ProjectQuickPreviewModal } from './ProjectQuickPreviewModal'
+export { LiveProjectsShowcase } from './LiveProjectsShowcase'
 
 /* ---- Live / offline status ---------------------------------------------- */
 export function LiveStatus({ live }: { live: boolean }) {
@@ -17,7 +19,7 @@ export function LiveStatus({ live }: { live: boolean }) {
           : 'border-border bg-secondary/60 text-muted-foreground',
       )}
     >
-      <span className={cn('h-2 w-2 rounded-full', live ? 'bg-emerald-500' : 'bg-muted-foreground/60')} aria-hidden />
+      <span className={cn('h-2 w-2 rounded-full', live ? 'bg-emerald-500 animate-pulse' : 'bg-muted-foreground/60')} aria-hidden />
       {live ? 'يعمل الآن' : 'مشروع سابق'}
     </span>
   )
@@ -40,13 +42,13 @@ export function ProjectTypeCards() {
         return (
           <div
             key={t}
-            className="group rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/40"
+            className="group rounded-2xl border border-border bg-card p-5 transition-all duration-300 hover:border-primary/40 hover:shadow-lg hover:-translate-y-1"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary transition-transform group-hover:scale-105">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform group-hover:scale-110">
               <Icon className="h-5.5 w-5.5" />
             </span>
-            <h3 className="mt-4 font-semibold">{liveProjectTypeLabels[t]}</h3>
-            <p className="mt-1 text-sm text-muted-foreground">{desc}</p>
+            <h3 className="mt-4 font-bold text-foreground">{liveProjectTypeLabels[t]}</h3>
+            <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{desc}</p>
           </div>
         )
       })}
@@ -56,6 +58,8 @@ export function ProjectTypeCards() {
 
 /* ---- Live project card -------------------------------------------------- */
 export function LiveProjectCard({ project, wide = false }: { project: LiveProject; wide?: boolean }) {
+  const [showPreview, setShowPreview] = useState(false)
+
   const inner = (
     <>
       <div className={cn('relative overflow-hidden bg-muted', wide ? 'aspect-[16/10]' : 'aspect-[4/3]')}>
@@ -65,28 +69,45 @@ export function LiveProjectCard({ project, wide = false }: { project: LiveProjec
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3">
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3 z-10">
           <LiveStatus live={project.live} />
           <span className="rounded-full bg-background/85 px-2.5 py-1 font-mono text-[11px] text-primary backdrop-blur">
             {liveProjectTypeLabels[project.type]}
           </span>
         </div>
+
+        {/* Quick Peek Button */}
+        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100 z-10">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              setShowPreview(true)
+            }}
+            className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-bold text-slate-900 shadow-xl transition-transform hover:scale-105"
+          >
+            <Eye className="h-3.5 w-3.5 text-primary" />
+            <span>معاينة سريعة</span>
+          </button>
+        </div>
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <span className="mb-1.5 font-mono text-xs text-primary">{liveCategoryName(project.category)}</span>
-        <h3 className="text-lg font-semibold leading-snug transition-colors group-hover:text-primary">{project.name}</h3>
+        <span className="mb-1.5 font-mono text-xs font-semibold text-primary">{liveCategoryName(project.category)}</span>
+        <h3 className="text-lg font-bold leading-snug transition-colors group-hover:text-primary">{project.name}</h3>
         <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
-        <div className="mt-4 flex items-center gap-1.5 border-t border-border pt-4 text-sm font-medium text-primary">
+        <div className="mt-4 flex items-center justify-between border-t border-border pt-4 text-sm font-semibold text-primary">
           {project.live && project.url ? (
-            <>
+            <span className="flex items-center gap-1.5">
               انقر للمشاهدة
               <ExternalLink className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-0.5 group-hover:-translate-y-0.5" />
-            </>
+            </span>
           ) : (
-            <>
+            <span className="flex items-center gap-1.5">
               اقرأ المزيد
               <ArrowUpLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1 group-hover:-translate-y-0.5" />
-            </>
+            </span>
           )}
         </div>
       </div>
@@ -94,19 +115,26 @@ export function LiveProjectCard({ project, wide = false }: { project: LiveProjec
   )
 
   const cls =
-    'group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl'
+    'group flex flex-col overflow-hidden rounded-2xl border border-border/80 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl'
 
-  if (project.live && project.url) {
-    return (
-      <a href={project.url} target="_blank" rel="noreferrer" className={cls}>
-        {inner}
-      </a>
-    )
-  }
   return (
-    <Link to={`/projects/${project.slug}`} className={cls}>
-      {inner}
-    </Link>
+    <>
+      {project.live && project.url ? (
+        <a href={project.url} target="_blank" rel="noreferrer" className={cls}>
+          {inner}
+        </a>
+      ) : (
+        <Link to={`/projects/${project.slug}`} className={cls}>
+          {inner}
+        </Link>
+      )}
+
+      <ProjectQuickPreviewModal
+        item={project}
+        isOpen={showPreview}
+        onClose={() => setShowPreview(false)}
+      />
+    </>
   )
 }
 

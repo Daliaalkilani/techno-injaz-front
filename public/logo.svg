@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" fill="none">
+  <defs>
+    <!-- Top Cap gradient -->
+    <linearGradient id="logoTopCapGrad" x1="100" y1="15" x2="100" y2="110" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4ade80" />
+      <stop offset="35%" stop-color="#2dd4bf" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+
+    <!-- Left Leg gradient -->
+    <linearGradient id="logoLeftLegGrad" x1="20" y1="95" x2="80" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2dd4bf" />
+      <stop offset="50%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+
+    <!-- Right Leg gradient -->
+    <linearGradient id="logoRightLegGrad" x1="180" y1="95" x2="120" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2dd4bf" />
+      <stop offset="50%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+
+    <!-- Facet Shadow gradients for 3D crystal depth -->
+    <linearGradient id="logoFacetLeft" x1="72" y1="118" x2="52" y2="145" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.25" />
+    </linearGradient>
+
+    <linearGradient id="logoFacetRight" x1="128" y1="118" x2="148" y2="145" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.25" />
+    </linearGradient>
+
+    <!-- Center Node sphere gradient -->
+    <radialGradient id="logoSphereGrad" cx="38%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#5eead4" />
+      <stop offset="45%" stop-color="#06b6d4" />
+      <stop offset="85%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#1e40af" />
+    </radialGradient>
+  </defs>
+
+  <!-- 1. Top Chevron Cap -->
+  <path
+    d="M 100 16 
+       L 142 88 
+       L 124 106 
+       L 100 76 
+       L 76 106 
+       L 58 88 
+       Z"
+    fill="url(#logoTopCapGrad)"
+  />
+
+  <!-- 2. Left Diagonal Wing -->
+  <path
+    d="M 52 98 
+       L 72 118 
+       L 34 218 
+       L 10 192 
+       Z"
+    fill="url(#logoLeftLegGrad)"
+  />
+  <path
+    d="M 72 118 
+       L 52 98 
+       L 62 145 
+       Z"
+    fill="url(#logoFacetLeft)"
+  />
+
+  <!-- 3. Right Diagonal Wing -->
+  <path
+    d="M 148 98 
+       L 190 192 
+       L 166 218 
+       L 128 118 
+       Z"
+    fill="url(#logoRightLegGrad)"
+  />
+  <path
+    d="M 128 118 
+       L 148 98 
+       L 138 145 
+       Z"
+    fill="url(#logoFacetRight)"
+  />
+
+  <!-- 4. Central Glowing Sphere / Node -->
+  <circle
+    cx="100"
+    cy="182"
+    r="24"
+    fill="url(#logoSphereGrad)"
+  />
+</svg>

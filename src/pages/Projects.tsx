@@ -3,7 +3,7 @@ import { SlidersHorizontal, Video as VideoIcon, FileText } from 'lucide-react'
 import { Container, PageHeader, Button, Section, Eyebrow } from '../components/ui/primitives'
 import { SearchInput, Select, Label } from '../components/ui/fields'
 import { ProjectCard } from '../components/content/ProjectCard'
-import { LiveProjectsCarousel, ProjectTypeCards } from '../components/content/LiveProjects'
+import { LiveProjectsShowcase, ProjectTypeCards } from '../components/content/LiveProjects'
 import { ProjectCardSkeleton, NoResultsState } from '../components/ui/states'
 import { Drawer } from '../components/ui/overlay'
 import { projects } from '../data/projects'
@@ -193,43 +193,17 @@ export default function Projects() {
       />
 
       {/* ---- Live projects showcase ---- */}
-      <Section className="pb-4 pt-12">
+      <Section className="pb-8 pt-12">
         <Container>
-          <div className="mb-8 flex items-center gap-2">
-            <span className="relative flex h-2.5 w-2.5">
+          <div className="mb-6 flex items-center gap-2">
+            <span className="relative flex h-3 w-3">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+              <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500" />
             </span>
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">مشاريع تعمل الآن</h2>
           </div>
 
-          {/* Category filter (default: جميع المشاريع) */}
-          <div className="mb-8 flex flex-wrap gap-2">
-            <button
-              onClick={() => setLiveCat('')}
-              className={cn(
-                'rounded-full border px-3.5 py-1.5 text-sm transition-colors',
-                liveCat === '' ? 'border-primary bg-primary/10 text-primary' : 'border-border text-muted-foreground hover:border-primary/40',
-              )}
-            >
-              جميع المشاريع
-            </button>
-            {liveCategories.map((c) => (
-              <button
-                key={c.slug}
-                onClick={() => setLiveCat(c.slug)}
-                className={cn(
-                  'rounded-full border px-3.5 py-1.5 text-sm transition-colors',
-                  liveCat === c.slug ? 'border-primary bg-primary/10 text-primary' : 'border-border text-muted-foreground hover:border-primary/40',
-                )}
-              >
-                <span className="me-1">{c.emoji}</span>
-                {c.name}
-              </button>
-            ))}
-          </div>
-
-          <LiveProjectsCarousel key={liveCat} projects={liveShown} />
+          <LiveProjectsShowcase projects={liveProjects} />
         </Container>
       </Section>
 

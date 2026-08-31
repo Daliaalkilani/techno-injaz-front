@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpLeft, Play, Sparkles } from "lucide-react";
+import { ArrowUpLeft, Play, Sparkles, Activity, ShieldCheck, Zap } from "lucide-react";
 import {
   Container,
   Section,
@@ -11,39 +11,39 @@ import {
 } from "../components/ui/primitives";
 import { StatCard } from "../components/content/StatCard";
 import { CategoryCard } from "../components/content/CategoryCard";
-import { ProjectCard } from "../components/content/ProjectCard";
+import { LiveProjectsShowcase } from "../components/content/LiveProjectsShowcase";
+import { HeroInteractiveRotator } from "../components/content/HeroInteractiveRotator";
+import { InteractiveProjectMatrix } from "../components/content/InteractiveProjectMatrix";
 import { ArticleCard } from "../components/content/ArticleCard";
 import { VideoCard } from "../components/content/VideoCard";
 import { VideoModal } from "../components/content/VideoModal";
 import { NewsletterSection } from "../components/content/Newsletter";
 import { categories } from "../data/categories";
-import { featuredProjects, projectBySlug } from "../data/projects";
+import { projects, featuredProjects, projectBySlug } from "../data/projects";
+import { liveProjects } from "../data/liveProjects";
 import { articles } from "../data/articles";
 import { videos } from "../data/videos";
 import { stats, officeInfo } from "../data/stats";
 import type { Video } from "../data/types";
-import { img, photos } from "../data/images";
 import { useSeo } from "../lib/seo";
-import { toArabicDigits } from "../lib/utils";
 
 export default function Home() {
   useSeo(
     "مكتب هندسي لمشاريع التخرّج التقنية",
-    "تكنو إنجاز — بورتفوليو رقمي لمشاريع التخرّج والمشاريع التقنية في الروبوتيك والذكاء الاصطناعي وإنترنت الأشياء.",
+    "تكنو إنجاز — منصة هندسية وبورتفوليو تفاعلي لمشاريع التخرّج والمشاريع التقنية في الروبوتيك والذكاء الاصطناعي وإنترنت الأشياء.",
   );
   const [activeVideo, setActiveVideo] = useState<Video | null>(null);
   const robotics = projectBySlug("autonomous-delivery-robot");
-  const featured = featuredProjects().slice(0, 6);
 
   return (
     <>
-      {/* ---- Hero ---- */}
+      {/* ---- Hero Section with Interactive 3D Rotator ---- */}
       <section className="relative overflow-hidden border-b border-border bg-blueprint">
         <div
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(34,184,207,0.18),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(14,116,144,0.14),_transparent_32%)]"
           aria-hidden
         />
-        <Container className="relative grid items-center gap-12 py-16 lg:grid-cols-[1.08fr_0.92fr] lg:py-24">
+        <Container className="relative grid items-center gap-12 py-14 lg:grid-cols-[1fr_1fr] lg:py-20">
           <div className="animate-fade-up">
             <Eyebrow>Techno Enjaz · Engineering Portfolio</Eyebrow>
             <h1 className="mt-5 max-w-xl text-4xl font-bold leading-[1.12] tracking-tight text-balance sm:text-5xl lg:text-6xl">
@@ -56,7 +56,7 @@ export default function Home() {
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
               مكتب متخصّص في تصميم وتنفيذ مشاريع التخرّج والمشاريع التقنية
               للطلاب والشركات — من الروبوتيك والذكاء الاصطناعي إلى الأنظمة
-              المدمجة وإنترنت الأشياء.
+              المدمجة وإنترنت الأشياء ومحاكاة الدوائر الإلكترونية.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <LinkButton
@@ -72,7 +72,7 @@ export default function Home() {
               </LinkButton>
             </div>
             <div className="mt-8 flex flex-wrap gap-3 text-sm text-muted-foreground">
-              {["تصميم هندسي", "برمجة ذكية", "تنفيذ فعلي"].map((item) => (
+              {["تصميم هندسي متقدم", "برمجة ومحاكاة ذكية", "تنفيذ واختبار حقيقي"].map((item) => (
                 <span
                   key={item}
                   className="rounded-full border border-border bg-card/80 px-3 py-1.5 backdrop-blur-sm"
@@ -84,60 +84,15 @@ export default function Home() {
           </div>
 
           <div className="animate-fade-up [animation-delay:120ms]">
-            <div className="relative mx-auto max-w-[520px]">
-              <div className="surface-panel animate-glow rounded-[32px] p-3 shadow-[0_30px_80px_rgba(15,23,42,0.12)]">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="overflow-hidden rounded-[26px] border border-border bg-muted">
-                    <img
-                      src={img(photos.robotics[0], 600, 780)}
-                      alt="روبوت هندسي"
-                      loading="eager"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div className="mt-8 flex flex-col gap-4">
-                    <div className="overflow-hidden rounded-[22px] border border-border bg-muted animate-float-slow">
-                      <img
-                        src={img(photos.electronics[0], 600, 400)}
-                        alt="لوحة إلكترونية"
-                        loading="eager"
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                    <div className="overflow-hidden rounded-[22px] border border-border bg-muted animate-float-delay">
-                      <img
-                        src={img(photos.ai[1], 600, 400)}
-                        alt="ذكاء اصطناعي"
-                        loading="lazy"
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute -left-5 top-8 rounded-2xl border border-border bg-card/90 px-4 py-3 shadow-xl backdrop-blur-sm animate-float-slow">
-                <div className="font-mono text-lg font-bold text-primary">
-                  +{toArabicDigits(130)}
-                </div>
-                <div className="text-[11px] text-muted-foreground">
-                  مشروع منفّذ
-                </div>
-              </div>
-              <div className="absolute -bottom-4 right-4 rounded-2xl border border-primary/20 bg-primary/10 px-4 py-3 shadow-xl backdrop-blur-sm animate-float-delay">
-                <div className="text-[11px] text-primary">حلول متكاملة</div>
-                <div className="mt-1 font-mono text-lg font-bold text-foreground">
-                  AI · IoT · Robotics
-                </div>
-              </div>
-            </div>
+            <HeroInteractiveRotator />
           </div>
         </Container>
       </section>
 
-      {/* ---- Statistics ---- */}
-      <Section className="py-14 sm:py-16">
+      {/* ---- Statistics Section ---- */}
+      <Section className="py-12 sm:py-14">
         <Container>
-          <div className="grid grid-cols-2 gap-8 rounded-2xl border border-border bg-card p-8 sm:p-10 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-8 rounded-3xl border border-border/80 bg-card p-8 sm:p-10 shadow-sm lg:grid-cols-4">
             {stats.map((s) => (
               <StatCard key={s.label} stat={s} />
             ))}
@@ -145,8 +100,38 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* ---- Services / domains ---- */}
-      <Section className="pt-4">
+      {/* ---- "مشاريع تعمل الآن" - Dynamic Auto-Flipping Interactive Showcase ---- */}
+      <Section className="py-12 bg-secondary/25 border-y border-border/70">
+        <Container>
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-3 w-3">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500" />
+                </span>
+                <Eyebrow>الأنظمة الحية</Eyebrow>
+              </div>
+              <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
+                مشاريع تعمل الآن
+              </h2>
+              <p className="mt-2 max-w-xl text-muted-foreground">
+                استعرض المنصات والتطبيقات المنشورة على الإنترنت مع إمكانية الدخول المباشر والمعاينة السريعة.
+              </p>
+            </div>
+            <LinkButton to="/projects" variant="outline">
+              جميع المنصات الحية
+              <ArrowUpLeft className="h-4 w-4" />
+            </LinkButton>
+          </div>
+
+          {/* Interactive Sliding Showcase */}
+          <LiveProjectsShowcase projects={liveProjects} />
+        </Container>
+      </Section>
+
+      {/* ---- Technical Domains / Services ---- */}
+      <Section className="py-16">
         <Container>
           <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -168,8 +153,8 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* ---- Featured projects ---- */}
-      <Section className="bg-secondary/30">
+      {/* ---- Featured Projects - Dynamic Bento Matrix ---- */}
+      <Section className="bg-secondary/30 border-t border-border/70 py-16">
         <Container>
           <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -178,27 +163,21 @@ export default function Home() {
                 مشاريع مختارة
               </h2>
               <p className="mt-3 max-w-lg text-muted-foreground">
-                نماذج من المشاريع التي صمّمناها ونفّذناها بمعايير هندسية دقيقة.
+                نماذج من المشاريع التي صمّمناها ونفّذناها بمعايير هندسية دقيقة مع إمكانية المعاينة السريعة.
               </p>
             </div>
-            <LinkButton to="/projects" variant="outline">
-              استعرض جميع المشاريع
-              <ArrowUpLeft className="h-4 w-4" />
-            </LinkButton>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((p) => (
-              <ProjectCard key={p.id} project={p} />
-            ))}
-          </div>
+
+          {/* Dynamic Interactive Bento Matrix */}
+          <InteractiveProjectMatrix projects={projects} />
         </Container>
       </Section>
 
       {/* ---- Robotics feature ---- */}
       {robotics && (
-        <Section>
+        <Section className="py-16">
           <Container>
-            <div className="grid items-center gap-10 overflow-hidden rounded-2xl border border-border bg-card lg:grid-cols-2">
+            <div className="grid items-center gap-10 overflow-hidden rounded-[32px] border border-border/80 bg-card shadow-lg lg:grid-cols-2">
               <div className="relative min-h-[300px] lg:min-h-[440px]">
                 <img
                   src={robotics.coverImage}
@@ -219,7 +198,7 @@ export default function Home() {
                   className="absolute inset-0 flex items-center justify-center bg-black/30 transition-colors hover:bg-black/45"
                   aria-label="شاهد الفيديو"
                 >
-                  <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xl">
+                  <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xl transition-transform hover:scale-110">
                     <Play className="h-7 w-7 translate-x-0.5 fill-current" />
                   </span>
                 </button>
@@ -258,7 +237,7 @@ export default function Home() {
       )}
 
       {/* ---- Articles ---- */}
-      <Section className="bg-secondary/30">
+      <Section className="bg-secondary/30 py-16">
         <Container>
           <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -281,7 +260,7 @@ export default function Home() {
       </Section>
 
       {/* ---- Videos ---- */}
-      <Section>
+      <Section className="py-16">
         <Container>
           <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -309,7 +288,7 @@ export default function Home() {
       {/* ---- Final CTA ---- */}
       <Section className="pb-24">
         <Container>
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-primary px-8 py-14 text-center text-primary-foreground sm:px-14">
+          <div className="relative overflow-hidden rounded-[32px] border border-border bg-primary px-8 py-14 text-center text-primary-foreground sm:px-14 shadow-2xl">
             <div
               className="pointer-events-none absolute inset-0 opacity-20"
               style={{
@@ -330,7 +309,7 @@ export default function Home() {
               <div className="mt-8 flex flex-wrap justify-center gap-3">
                 <Link
                   to="/contact"
-                  className="inline-flex h-12 items-center justify-center rounded-md bg-background px-7 text-base font-medium text-foreground transition-transform hover:-translate-y-0.5"
+                  className="inline-flex h-12 items-center justify-center rounded-xl bg-background px-7 text-base font-bold text-foreground transition-transform hover:-translate-y-0.5 shadow-lg"
                 >
                   تحدّث معنا
                 </Link>
@@ -338,7 +317,7 @@ export default function Home() {
                   href={`https://wa.me/${officeInfo.phoneIntl}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-12 items-center justify-center rounded-md border border-primary-foreground/40 px-7 text-base font-medium transition-colors hover:bg-primary-foreground/10"
+                  className="inline-flex h-12 items-center justify-center rounded-xl border border-primary-foreground/40 px-7 text-base font-medium transition-colors hover:bg-primary-foreground/10"
                 >
                   اطلب استشارة
                 </a>

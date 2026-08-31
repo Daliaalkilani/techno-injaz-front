@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpLeft, GraduationCap } from "lucide-react";
+import { ArrowUpLeft, GraduationCap, Eye } from "lucide-react";
 import type { Project } from "../../data/types";
 import { projectTypeLabels } from "../../data/types";
 import { categoryName } from "../../data/categories";
@@ -7,73 +8,99 @@ import { universityBySlug } from "../../data/universities";
 import { Badge, Tag } from "../ui/primitives";
 import { toArabicDigits } from "../../lib/utils";
 import { FavoriteButton } from "./FavoriteButton";
+import { ProjectQuickPreviewModal } from "./ProjectQuickPreviewModal";
 
 export function ProjectCard({ project }: { project: Project }) {
+  const [showPreview, setShowPreview] = useState(false);
   const uni = universityBySlug(project.university);
+
   return (
-    <Link
-      to={`/projects/${project.slug}`}
-      className="group relative flex h-full flex-col overflow-hidden rounded-[28px] border border-border/80 bg-card transition-all duration-300 hover-lift hover:border-primary/40"
-    >
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-primary/6 via-transparent to-accent/10 opacity-90"
-        aria-hidden
-      />
-      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-        <img
-          src={project.coverImage}
-          alt={project.title}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-slate-900/10 to-transparent"
-          aria-hidden
-        />
-        <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3">
-          <Badge className="gap-1 bg-background/80 backdrop-blur-md">
-            <GraduationCap className="h-3.5 w-3.5" />
-            {projectTypeLabels[project.type]}
-          </Badge>
-          <FavoriteButton slug={project.slug} variant="overlay" />
-        </div>
-      </div>
+    <>
+      <div className="group relative flex h-full flex-col overflow-hidden rounded-[24px] border border-border/80 bg-card transition-all duration-300 hover:border-primary/40 hover:shadow-lg">
+        {/* Card Cover Image */}
+        <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+          <img
+            src={project.coverImage}
+            alt={project.title}
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none"
+            aria-hidden
+          />
 
-      <div className="relative z-10 flex flex-1 flex-col p-5">
-        <span className="mb-2 font-mono text-[11px] font-medium tracking-[0.12em] text-primary">
-          {categoryName(project.category)}
-        </span>
-        <h3 className="text-xl font-bold leading-snug transition-colors group-hover:text-primary">
-          {project.title}
-        </h3>
-        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-          {project.shortDescription}
-        </p>
+          {/* Top Badges */}
+          <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3 z-10">
+            <Badge className="gap-1 bg-slate-900/80 text-white backdrop-blur-md border border-white/10 font-mono text-[11px]">
+              <GraduationCap className="h-3.5 w-3.5" />
+              {projectTypeLabels[project.type]}
+            </Badge>
 
-        <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-          <span>{uni?.name}</span>
-          <span aria-hidden>•</span>
-          <span className="font-mono">{toArabicDigits(project.year)}</span>
-        </div>
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowPreview(true);
+                }}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900/80 text-white backdrop-blur-md border border-white/10 transition-colors hover:bg-primary hover:text-white"
+                title="معاينة سريعة"
+                aria-label="معاينة سريعة"
+              >
+                <Eye className="h-3.5 w-3.5" />
+              </button>
+              <FavoriteButton slug={project.slug} variant="overlay" />
+            </div>
+          </div>
 
-        <div className="mt-4 flex flex-wrap items-end gap-1.5">
-          {project.technologies.slice(0, 3).map((t) => (
-            <Tag
-              key={t}
-              className="rounded-full border-primary/10 bg-secondary/70"
-            >
-              {t}
-            </Tag>
-          ))}
+          {/* Bottom University / Year Bar */}
+          <div className="absolute bottom-2.5 right-3 left-3 flex items-center justify-between text-[11px] font-mono text-slate-200 pointer-events-none">
+            <span>{uni?.name || "مشروع هندسي"}</span>
+            <span>{toArabicDigits(project.year)}</span>
+          </div>
         </div>
 
-        <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
-          <span className="text-sm font-medium text-primary">اقرأ المزيد</span>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-secondary/70 transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:bg-primary/10">
-            <ArrowUpLeft className="h-4 w-4 text-primary" />
+        {/* Content Body */}
+        <Link
+          to={`/projects/${project.slug}`}
+          className="relative z-10 flex flex-1 flex-col p-5"
+        >
+          <span className="mb-1 font-mono text-[11px] font-semibold tracking-wider text-primary">
+            {categoryName(project.category)}
           </span>
-        </div>
+          <h3 className="text-lg font-bold leading-snug text-foreground transition-colors group-hover:text-primary">
+            {project.title}
+          </h3>
+          <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
+            {project.shortDescription}
+          </p>
+
+          <div className="mt-3 flex flex-wrap items-end gap-1.5">
+            {project.technologies.slice(0, 3).map((t) => (
+              <Tag
+                key={t}
+                className="rounded-md border-border/80 bg-secondary/60 text-[11px]"
+              >
+                {t}
+              </Tag>
+            ))}
+          </div>
+
+          <div className="mt-4 flex items-center justify-between border-t border-border/70 pt-3 text-xs font-semibold text-primary">
+            <span>تفاصيل المشروع الهندسية</span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary/80 transition-all duration-300 group-hover:-translate-x-1 group-hover:bg-primary group-hover:text-primary-foreground">
+              <ArrowUpLeft className="h-4 w-4" />
+            </span>
+          </div>
+        </Link>
       </div>
-    </Link>
+
+      <ProjectQuickPreviewModal
+        item={project}
+        isOpen={showPreview}
+        onClose={() => setShowPreview(false)}
+      />
+    </>
   );
 }
