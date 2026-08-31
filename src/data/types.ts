@@ -1,10 +1,12 @@
-export type ProjectType = 'graduation' | 'semester' | 'research' | 'company'
+export type ProjectType = 'graduation' | 'semester' | 'research' | 'company' | 'startup' | 'enterprise'
 
 export const projectTypeLabels: Record<ProjectType, string> = {
-  graduation: 'مشروع تخرج',
-  semester: 'مشروع فصلي',
-  research: 'حلقة بحث',
-  company: 'عمل شركة',
+  startup: 'نموذج ريادي / MVP لشركة ناشئة',
+  company: 'حلول وأنظمة شركات',
+  enterprise: 'أتمتة ومنصات مؤسسية',
+  graduation: 'مشروع تخرّج هندسي',
+  research: 'بحث وتطوير تطبيقي (R&D)',
+  semester: 'نموذج فصلي متقدم',
 }
 
 export interface Category {

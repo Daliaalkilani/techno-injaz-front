@@ -16,7 +16,7 @@ export function ShareButtons({ title }: { title: string }) {
     }
   }
 
-  const shareText = encodeURIComponent(`${title} — تكنو إنجاز`)
+  const shareText = encodeURIComponent(`${title} | تكنو إنجاز`)
   const encodedUrl = encodeURIComponent(url)
 
   const iconBtn =

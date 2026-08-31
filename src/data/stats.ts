@@ -5,16 +5,16 @@ export interface Stat {
 }
 
 export const stats: Stat[] = [
-  { value: 130, label: 'مشروعًا منفّذًا' },
-  { value: 100, label: 'مشروع تخرّج' },
-  { value: 20, label: 'مجالًا تقنيًا' },
-  { value: 2700, label: 'صورة وفيديو' },
+  { value: 130, label: 'نظامًا وحلاً هندسيًا' },
+  { value: 45, label: 'منصة ونموذج أعمال' },
+  { value: 20, label: 'مجالاً وتخصصًا تقنيًا' },
+  { value: 2700, label: 'ملفًا وتوثيقًا ومخططًا' },
 ]
 
 export const officeInfo = {
   name: 'تكنو إنجاز',
   nameEn: 'TECHNO ENJAZ',
-  tagline: 'مكتب هندسي وتقني',
+  tagline: 'حلول هندسية ونماذج أعمال مبتكرة',
   phone: '0958794195',
   phoneIntl: '963958794195',
   instagram: 'TECHNO_ENJAZ',

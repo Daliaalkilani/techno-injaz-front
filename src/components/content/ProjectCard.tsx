@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpLeft, GraduationCap, Eye } from "lucide-react";
+import { ArrowUpLeft, GraduationCap, Eye, Video as VideoIcon, FileText } from "lucide-react";
 import type { Project } from "../../data/types";
 import { projectTypeLabels } from "../../data/types";
 import { categoryName } from "../../data/categories";
@@ -10,13 +10,125 @@ import { toArabicDigits } from "../../lib/utils";
 import { FavoriteButton } from "./FavoriteButton";
 import { ProjectQuickPreviewModal } from "./ProjectQuickPreviewModal";
 
-export function ProjectCard({ project }: { project: Project }) {
+interface ProjectCardProps {
+  project: Project;
+  variant?: "grid" | "list";
+}
+
+export function ProjectCard({ project, variant = "grid" }: ProjectCardProps) {
   const [showPreview, setShowPreview] = useState(false);
   const uni = universityBySlug(project.university);
 
+  // List View Variant (Horizontal sleek engineering row)
+  if (variant === "list") {
+    return (
+      <>
+        <div className="group relative flex flex-col sm:flex-row items-stretch overflow-hidden rounded-2xl border border-border/80 bg-card p-4 sm:p-5 transition-all duration-300 hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5">
+          {/* Thumbnail */}
+          <div className="relative aspect-[16/10] sm:aspect-[4/3] sm:w-56 shrink-0 overflow-hidden rounded-xl bg-muted">
+            <img
+              src={project.coverImage}
+              alt={project.title}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute top-2 right-2 z-10 flex items-center gap-1">
+              <span className="inline-flex items-center rounded-lg bg-slate-950/80 px-2 py-0.5 font-mono text-[10px] font-bold text-white backdrop-blur-xs border border-white/10">
+                {projectTypeLabels[project.type]}
+              </span>
+            </div>
+
+            <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowPreview(true);
+                }}
+                className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-950/80 text-white backdrop-blur-xs hover:bg-primary transition-colors cursor-pointer"
+                title="معاينة سريعة"
+              >
+                <Eye className="h-3.5 w-3.5" />
+              </button>
+              <FavoriteButton slug={project.slug} variant="overlay" />
+            </div>
+          </div>
+
+          {/* Details */}
+          <div className="relative z-10 flex flex-1 flex-col justify-between mt-3 sm:mt-0 sm:pe-5 sm:ps-5">
+            <div>
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5 text-xs text-muted-foreground font-mono">
+                <span className="font-bold text-primary">
+                  {categoryName(project.category)}
+                </span>
+                <div className="flex items-center gap-2">
+                  <span>{uni?.name || "مشروع هندسي"}</span>
+                  <span>•</span>
+                  <span>{toArabicDigits(project.year)}</span>
+                </div>
+              </div>
+
+              <Link to={`/projects/${project.slug}`}>
+                <h3 className="text-base sm:text-lg font-bold leading-snug text-foreground transition-colors group-hover:text-primary">
+                  {project.title}
+                </h3>
+              </Link>
+
+              <p className="mt-1.5 line-clamp-2 text-xs sm:text-sm leading-relaxed text-muted-foreground">
+                {project.shortDescription}
+              </p>
+
+              {/* Tags & Features */}
+              <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                {project.technologies.slice(0, 4).map((t) => (
+                  <Tag
+                    key={t}
+                    className="rounded-md border-border/80 bg-secondary/60 text-[11px] px-2 py-0.5"
+                  >
+                    {t}
+                  </Tag>
+                ))}
+                {project.videos.length > 0 && (
+                  <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground font-mono bg-secondary/40 px-2 py-0.5 rounded-md">
+                    <VideoIcon className="h-3 w-3 text-primary" />
+                    فيديو
+                  </span>
+                )}
+                {project.hasPdf && (
+                  <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground font-mono bg-secondary/40 px-2 py-0.5 rounded-md">
+                    <FileText className="h-3 w-3 text-primary" />
+                    تقرير
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-3">
+              <Link
+                to={`/projects/${project.slug}`}
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-primary transition-transform duration-200 group-hover:-translate-x-1"
+              >
+                <span>استعراض المخطط والتفاصيل الهندسية</span>
+                <ArrowUpLeft className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <ProjectQuickPreviewModal
+          item={project}
+          isOpen={showPreview}
+          onClose={() => setShowPreview(false)}
+        />
+      </>
+    );
+  }
+
+  // Grid View Variant (Default Card)
   return (
     <>
-      <div className="group relative flex h-full flex-col overflow-hidden rounded-[24px] border border-border/80 bg-card transition-all duration-300 hover:border-primary/40 hover:shadow-lg">
+      <div className="group relative flex h-full flex-col overflow-hidden rounded-[24px] border border-border/80 bg-card transition-all duration-300 hover:border-primary/40 hover:shadow-lg hover:-translate-y-1">
         {/* Card Cover Image */}
         <div className="relative aspect-[16/10] overflow-hidden bg-muted">
           <img
@@ -39,12 +151,13 @@ export function ProjectCard({ project }: { project: Project }) {
 
             <div className="flex items-center gap-1.5">
               <button
+                type="button"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShowPreview(true);
                 }}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900/80 text-white backdrop-blur-md border border-white/10 transition-colors hover:bg-primary hover:text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900/80 text-white backdrop-blur-md border border-white/10 transition-colors hover:bg-primary hover:text-white cursor-pointer"
                 title="معاينة سريعة"
                 aria-label="معاينة سريعة"
               >

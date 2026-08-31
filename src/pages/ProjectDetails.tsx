@@ -137,7 +137,7 @@ export default function ProjectDetails() {
             </div>
 
             <aside className="space-y-3">
-              <InfoPill label="الجامعة" value={uni?.name ?? '—'} />
+              <InfoPill label="الجامعة" value={uni?.name ?? 'غير محدد'} />
               <InfoPill label="السنة" value={toArabicDigits(project.year)} />
               <InfoPill label="الفريق" value={project.students.join('، ')} />
               <InfoPill label="الإشراف" value={project.supervisors.join('، ')} />

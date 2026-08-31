@@ -147,7 +147,7 @@ export function PdfFlipbook({ project }: { project: Project }) {
                         <div className="mt-5 h-1 w-16 bg-[#0e7490]" />
                       </div>
                       <div className="font-mono text-xs text-black/45">
-                        {toArabicDigits(project.year)} — تقرير مشروع
+                        تقرير مشروع ({toArabicDigits(project.year)})
                       </div>
                     </div>
                   </FlipPage>

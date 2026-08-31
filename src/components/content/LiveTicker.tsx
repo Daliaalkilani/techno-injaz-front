@@ -3,12 +3,12 @@ import { Activity, Sparkles, Cpu, Globe, CheckCircle2, Zap } from "lucide-react"
 
 export function LiveTicker() {
   const items = [
-    { icon: Globe, label: "منصة SecureCity", status: "نشطة أونلاين", tag: "AI Cyber" },
-    { icon: Cpu, label: "Arduino Lab التفاعلي", status: "محاكي مباشر جاهز", tag: "Hardware" },
-    { icon: Activity, label: "حِساب ERP المحاسبي", status: "نظام سحابي متصل", tag: "Business" },
-    { icon: Zap, label: "مشروع الروبوت الذاتي ROS 2", status: "جاهز للملاحة", tag: "Robotics" },
-    { icon: Sparkles, label: "نظام ري IoT ذكي", status: "تكامل MQTT فوري", tag: "Smart IoT" },
-    { icon: CheckCircle2, label: "+130 مشروع تخرج وتقني منفّذ", status: "موثّق هندسياً", tag: "Engineering" },
+    { icon: Globe, label: "منصة SecureCity للسيبراني", status: "نظام مباشر أونلاين", tag: "AI & Cyber" },
+    { icon: Cpu, label: "Arduino Lab التفاعلي", status: "محاكي سحابي نشط", tag: "Hardware" },
+    { icon: Activity, label: "نظام حِساب ERP للشركات", status: "منصة إدارة موارد حية", tag: "Business SaaS" },
+    { icon: Zap, label: "روبوت الملاحة الذاتية ROS 2", status: "جاهز للملاحة", tag: "Robotics" },
+    { icon: Sparkles, label: "نظام ري IoT زراعي وصناعي", status: "تكامل تيليمترية MQTT", tag: "Industrial IoT" },
+    { icon: CheckCircle2, label: "+130 نظام هندسي ونموذج أعمال منفّذ", status: "جاهزية تشغيلية", tag: "Engineering" },
   ];
 
   return (

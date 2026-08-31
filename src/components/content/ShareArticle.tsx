@@ -13,7 +13,7 @@ export function ShareArticle({ title }: { title: string }) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const url = typeof window !== 'undefined' ? window.location.href : ''
-  const shareText = `${title} — تكنو إنجاز`
+  const shareText = `${title} | تكنو إنجاز`
   const enc = encodeURIComponent(url)
   const encText = encodeURIComponent(shareText)
 

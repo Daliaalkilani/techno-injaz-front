@@ -137,7 +137,7 @@ export function Logo({
     <Link
       to="/"
       className={cn("group flex items-center gap-2.5", className)}
-      aria-label="تكنو إنجاز — الصفحة الرئيسية"
+      aria-label="تكنو إنجاز | الصفحة الرئيسية"
     >
       <BrandIcon />
       {showText && (
