@@ -1,0 +1,10 @@
+{
+  "description": "Showcases engineering projects through an advanced portfolio, featuring 3D PDF viewing, project descriptions, and user-friendly navigation for students and clients.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
