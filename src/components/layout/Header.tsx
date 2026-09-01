@@ -6,7 +6,6 @@ import { Container } from "../ui/primitives";
 import { Drawer } from "../ui/overlay";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
-import { UserMenu } from "./UserMenu";
 
 const navItems = [
   { to: "/", label: "الرئيسية", end: true },
@@ -139,9 +138,6 @@ export function Header() {
 
             <ThemeToggle />
 
-            <div className="ms-1 hidden lg:block">
-              <UserMenu />
-            </div>
 
             {/* Mobile Hamburger Button */}
             <button
@@ -222,11 +218,7 @@ export function Header() {
             </nav>
           </div>
 
-          <div className="mt-8 space-y-3 border-t border-border/70 pt-6">
-            <div onClick={() => setMenuOpen(false)}>
-              <UserMenu />
-            </div>
-
+          <div className="mt-8 border-t border-border/70 pt-6">
             <button
               onClick={() => {
                 setMenuOpen(false);

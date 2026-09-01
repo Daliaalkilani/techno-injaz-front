@@ -122,10 +122,10 @@ export function RefinedProjectShowcase() {
 
                 {/* Top Overlay Meta */}
                 <div className="absolute inset-x-4 top-4 flex items-center justify-between">
-                  <span className="rounded-full border border-white/20 bg-black/60 px-3 py-1 font-mono text-[11px] font-semibold text-white backdrop-blur-md">
+                  <span className="rounded-full border border-white/20 bg-black/60 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur-md">
                     {uni?.name || "مشروع تطبيقي"} • {toArabicDigits(currentProject.year)}
                   </span>
-                  <span className="rounded-full bg-primary/90 px-3 py-1 font-mono text-[11px] font-semibold text-white backdrop-blur-md">
+                  <span className="rounded-full bg-primary/90 px-3 py-1 text-[11px] font-semibold text-primary-foreground backdrop-blur-md">
                     {toArabicDigits(activeSlide + 1)} / {toArabicDigits(total)}
                   </span>
                 </div>

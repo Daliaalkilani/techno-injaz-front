@@ -51,9 +51,9 @@ export default function Home() {
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(34,184,207,0.16),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(14,116,144,0.14),_transparent_36%)]"
           aria-hidden
         />
-        <Container className="relative grid items-center gap-10 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
+        <Container className="relative grid min-w-0 items-center gap-10 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 font-mono text-xs font-semibold text-primary backdrop-blur-xs">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary backdrop-blur-xs">
               <Sparkles className="h-3.5 w-3.5" />
               <span>مكتب تكنو إنجاز الهندسي للحلول التقنية</span>
             </div>

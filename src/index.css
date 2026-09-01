@@ -96,31 +96,11 @@ body,
     scroll-behavior: smooth;
   }
   body {
-    background:
-      radial-gradient(circle at top, rgba(14, 116, 144, 0.14), transparent 30%),
-      radial-gradient(
-        circle at bottom right,
-        rgba(8, 145, 178, 0.08),
-        transparent 32%
-      ),
-      var(--background);
+    background: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-  }
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(
-      120deg,
-      rgba(255, 255, 255, 0.16),
-      transparent 30%,
-      rgba(14, 116, 144, 0.08)
-    );
-    opacity: 0.7;
   }
   ::selection {
     background-color: color-mix(in srgb, var(--primary) 28%, transparent);
@@ -154,28 +134,9 @@ body,
   .surface-panel {
     position: relative;
     overflow: hidden;
-    border: 1px solid color-mix(in srgb, var(--border) 90%, transparent);
-    background: linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--card) 96%, transparent),
-      color-mix(in srgb, var(--card) 86%, transparent)
-    );
-    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
-    backdrop-filter: blur(10px);
-  }
-  .surface-panel::before {
-    content: "";
-    position: absolute;
-    inset: -30% auto auto -15%;
-    width: 180px;
-    height: 180px;
-    border-radius: 9999px;
-    background: radial-gradient(
-      circle,
-      rgba(34, 184, 207, 0.25),
-      transparent 65%
-    );
-    pointer-events: none;
+    border: 1px solid var(--border);
+    background: var(--card);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
   }
   .animate-fade-up {
     animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;

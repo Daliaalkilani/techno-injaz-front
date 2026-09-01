@@ -57,8 +57,9 @@ export default function Contact() {
   const validate = () => {
     const e: Partial<FormState> = {};
     if (!form.name.trim()) e.name = "الرجاء إدخال الاسم";
-    if (!/^[0-9\s+]{7,}$/.test(form.phone.trim()))
-      e.phone = "الرجاء إدخال رقم هاتف صحيح";
+    const normalizedPhone = form.phone.replace(/[\s()-]/g, "");
+    if (!/^\+?[0-9]{7,15}$/.test(normalizedPhone))
+      e.phone = "الرجاء إدخال رقم هاتف صحيح من 7 إلى 15 رقمًا";
     if (!form.message.trim()) e.message = "الرجاء كتابة رسالتك";
     setErrors(e);
     return Object.keys(e).length === 0;
